@@ -25,36 +25,18 @@ import NavBar from './NavBar.jsx'
 
 const drawerWidth = 240;
 
-const products = [
-  {
-    id: 1,
-    name: "Product 1",
-    price: 49.99,
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQwxpp8kvSn8bX_XNKLknxHSrIrUA7u9n7mA&s",
-    description: "This shit gives u so much fps u wouldn't believe.",
-    rating: 4.5
-  },
-  {
-    id: 2,
-    name: "Product 2",
-    price: 79.99,
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc67ljZXPR715oV0WajFx_WbqqeOSA8d5rVA&s",
-    description: "This shit gives u so much fps u wouldn't believe.",
-    rating: 3.0
-  },
-  {
-    id: 3,
-    name: "Product 3",
-    price: 29.99,
-    image: "https://www.asrock.com/Graphics-Card/photo/Radeon%20RX%209070%20XT%20Taichi%2016GB%20OC(M1).png",
-    description: "This shit gives u so much fps u wouldn't believe.",
-    rating: 5.0
-  }
-];
-
 export default function IndexPage() {
   const [priceRange, setPriceRange] = React.useState([0, 100]);
   const [minRating, setMinRating] = React.useState(0);
+
+  const [products, setProducts] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch("http://localhost:3000/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error("Failed to fetch products", err));
+  }, []);
 
   const handlePriceChange = (event, newValue) => {
     setPriceRange(newValue);

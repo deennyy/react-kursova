@@ -49,6 +49,27 @@
       "user_id": 1,
       "rating": 5,
       "comment": "This is a review"
+    },
+    {
+      "id": "e7d6",
+      "product_id": "1",
+      "user_id": "1",
+      "rating": 5,
+      "comment": "asdasdsad"
+    },
+    {
+      "id": "ba23",
+      "product_id": "1",
+      "user_id": "1",
+      "rating": 2.5,
+      "comment": "yo0ooooooooo"
+    },
+    {
+      "id": "7be4",
+      "product_id": "1",
+      "user_id": "1",
+      "rating": 2.5,
+      "comment": "adsgdghasgdagads"
     }
   ]
 }

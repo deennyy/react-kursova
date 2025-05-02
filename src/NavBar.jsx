@@ -43,6 +43,7 @@ const NavBar = () => {
                 { location['pathname'] != '/login' ? (
                     <>
                     <Box sx={{ flexGrow: 1 }} />
+                    { user && <Typography sx={{pr: 1}}>Logged in as: {user['username']}</Typography> }
 
                     { user ? (
                     <Button variant="outlined" color="#ffffff" onClick={handleLogoutClick}>

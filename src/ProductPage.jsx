@@ -21,46 +21,51 @@ import {
 import { Link, useParams } from 'react-router-dom';
 import NavBar from "./NavBar.jsx";
 
-// Same product list or import from a shared file
-const products = [
-    {
-      id: 1,
-      name: "Product 1",
-      price: 49.99,
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQwxpp8kvSn8bX_XNKLknxHSrIrUA7u9n7mA&s",
-      description: "This shit gives u so much fps u wouldn't believe.",
-      rating: 4.5
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 79.99,
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc67ljZXPR715oV0WajFx_WbqqeOSA8d5rVA&s",
-      description: "This shit gives u so much fps u wouldn't believe.",
-      rating: 3.0
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      price: 29.99,
-      image: "https://www.asrock.com/Graphics-Card/photo/Radeon%20RX%209070%20XT%20Taichi%2016GB%20OC(M1).png",
-      description: "This shit gives u so much fps u wouldn't believe.",
-      rating: 5.0
-    }
-];
-
-const dummyReviews = [
-    { name: "Alice", rating: 5, comment: "Loved it!" },
-    { name: "Bob", rating: 4, comment: "Very good, but could be cheaper." }
-];
-
 export default function ProductPage() {
+  const [products, setProducts] = React.useState([]);
+  const [reviews, setReviews] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch("http://localhost:3000/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error("Failed to fetch products", err));
+  }, []);
+
   const { id } = useParams();
-  const product = products.find((p) => p.id === parseInt(id));
-  const [reviews, setReviews] = useState(dummyReviews);
+  const product = products.find((p) => p.id == parseInt(id));
+
+  React.useEffect(() => {
+    if (!product?.id) return;
+  
+    const fetchReviewsWithUsers = async () => {
+      try {
+        const reviewsRes = await fetch(`http://localhost:3000/reviews?product_id=${product.id}`);
+        const reviewsData = await reviewsRes.json();
+  
+        const reviewsWithUser = await Promise.all(
+          reviewsData.map(async (rev) => {
+            const userRes = await fetch(`http://localhost:3000/users/${rev.user_id}`);
+            const userData = await userRes.json();
+            return {
+              ...rev,
+              name: userData.username || "Unknown"
+            };
+          })
+        );
+  
+        setReviews(reviewsWithUser);
+      } catch (err) {
+        console.error("Failed to load reviews or users", err);
+      }
+    };
+  
+    fetchReviewsWithUsers();
+  }, [product?.id]);
+
   const [newReview, setNewReview] = useState({
     name: "",
-    rating: 0,
+    rating: 2.5,
     comment: ""
   });
 
@@ -80,14 +85,19 @@ export default function ProductPage() {
     setNewReview({ ...newReview, rating: value });
   };
 
-  const handleReviewSubmit = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const handleReviewSubmit = async () => {
     if (newReview.name && newReview.comment && newReview.rating > 0) {
+      try {
+        await fetch(`http://localhost:3000/reviews`, {method: 'POST', body: JSON.stringify({product_id: product.id, user_id: user.id, rating: newReview.rating, comment: newReview.comment})});
+      } catch (error) {
+        console.error("Failed to add new review", err);
+      }
       setReviews([...reviews, newReview]);
-      setNewReview({ name: "", rating: 0, comment: "" });
+      setNewReview({ name: "", rating: 2.5, comment: "" });
     }
   };
-
-  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <Box>
@@ -149,7 +159,7 @@ export default function ProductPage() {
           label="Your Name"
           fullWidth
           margin="normal"
-          value={ user ? user['username'] : "Your Name" }
+          value={ user ? newReview.name = user['username'] : newReview.name = "Your Name" }
           onChange={handleReviewChange("name")}
           disabled
         />
