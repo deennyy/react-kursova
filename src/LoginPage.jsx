@@ -50,17 +50,30 @@ const LoginPage = () => {
   const handleRegisterRedirect = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch(`http://localhost:3000/users`, {method: "POST", body: JSON.stringify({username: formData.username, password: formData.password})});
-        const users = await response.json();
-        const user_arr = [users];
-    
-        if (user_arr.length === 1) {
-          // Register successful
-          const user = user_arr[0];
-          localStorage.setItem("user", JSON.stringify(user)); // store session
-          navigate("/");
+        // query the api to see if a user with the same username already exists
+        const check_username_response = await fetch(`http://localhost:3000/users?username=${formData.username}`);
+        const check_username_json = await check_username_response.json();
+
+        if (check_username_json.length === 1) {
+            alert("User with this username already exists");
         } else {
-          alert("Registartion failed.");
+            const response = await fetch(`http://localhost:3000/users`, {method: "POST", body: JSON.stringify({username: formData.username, password: formData.password})});
+            const users = await response.json();
+            let user_arr = [];
+
+            // do this, because the api returns an empty json object on failed registration, and our array length would still be 1, even though we failed to register
+            if (Object.keys(users).length === 3) {
+                user_arr = [users];
+            }
+    
+            if (user_arr.length === 1) {
+                // Register successful
+                const user = user_arr[0];
+                localStorage.setItem("user", JSON.stringify(user)); // store session
+                navigate("/");
+            } else {
+                alert("Registartion failed.");
+            }
         }
       } catch (error) {
         console.error("Registration error:", error);
