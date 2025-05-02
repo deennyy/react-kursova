@@ -5,12 +5,14 @@ import { createRoot } from 'react-dom/client'
 import IndexPage from './Index.jsx'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductPage from './ProductPage.jsx';
+import LoginPage from './LoginPage.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<IndexPage />} />
       <Route path="/products/:id" element={<ProductPage />} />
+      <Route path="/login" element={<LoginPage />} />
     </Routes>
   </BrowserRouter>,
 )

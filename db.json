@@ -1,13 +1,54 @@
 {
-    "users": [
-      { "id": 1, "name": "Admin", "password": "pass" }
-    ],
-    "products": [
-      { "id": 1, "name": "Product 1", "description": "This is product 1", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQwxpp8kvSn8bX_XNKLknxHSrIrUA7u9n7mA&s", "rating": 4.5, "price": 49.99 },
-      { "id": 2, "name": "Product 2", "description": "This is product 2", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc67ljZXPR715oV0WajFx_WbqqeOSA8d5rVA&s", "rating": 3.0, "price": 79.99 },
-      { "id": 3, "name": "Product 3", "description": "This is product 3", "image": "https://www.asrock.com/Graphics-Card/photo/Radeon%20RX%209070%20XT%20Taichi%2016GB%20OC(M1).png", "rating": 5.0, "price": 29.99 }
-    ],
-    "reviews": [
-      { "id": 1, "product_id": 1, "user_id": 1, "rating": 5.0, "comment": "This is a review" }
-    ]
+  "users": [
+    {
+      "id": "1",
+      "username": "Admin",
+      "password": "pass"
+    },
+    {
+      "id": "2",
+      "username": "Denny",
+      "password": "pass"
+    },
+    {
+      "id": "5d55",
+      "username": "Alex",
+      "password": "test"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Product 1",
+      "description": "This is product 1",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQwxpp8kvSn8bX_XNKLknxHSrIrUA7u9n7mA&s",
+      "rating": 4.5,
+      "price": 49.99
+    },
+    {
+      "id": "2",
+      "name": "Product 2",
+      "description": "This is product 2",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc67ljZXPR715oV0WajFx_WbqqeOSA8d5rVA&s",
+      "rating": 3,
+      "price": 79.99
+    },
+    {
+      "id": "3",
+      "name": "Product 3",
+      "description": "This is product 3",
+      "image": "https://www.asrock.com/Graphics-Card/photo/Radeon%20RX%209070%20XT%20Taichi%2016GB%20OC(M1).png",
+      "rating": 5,
+      "price": 29.99
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "product_id": 1,
+      "user_id": 1,
+      "rating": 5,
+      "comment": "This is a review"
+    }
+  ]
 }

@@ -19,6 +19,7 @@ import {
   Grid
 } from "@mui/material";
 import { Link, useParams } from 'react-router-dom';
+import NavBar from "./NavBar.jsx";
 
 // Same product list or import from a shared file
 const products = [
@@ -86,21 +87,12 @@ export default function ProductPage() {
     }
   };
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <Box>
     <CssBaseline />
-    <AppBar position="static">
-        <Toolbar>
-            <Typography
-                noWrap
-                variant="h6"
-                component={Link}
-                to={`/`}
-                sx={{ textDecoration: "none", color: "#ffffff", "&:hover": { textDecoration: "underline" } }}>
-                My E-Commerce Platform
-            </Typography>
-        </Toolbar>
-      </AppBar>
+    <NavBar></NavBar>
     <Container maxWidth="lg" sx={{ mt: 4 }}>
     <Box sx={{ display: "flex", gap: 4, alignItems: "flex-start" }}>
     <Box sx={{ flex: 1 }}>
@@ -157,8 +149,9 @@ export default function ProductPage() {
           label="Your Name"
           fullWidth
           margin="normal"
-          value={newReview.name}
+          value={ user ? user['username'] : "Your Name" }
           onChange={handleReviewChange("name")}
+          disabled
         />
         <Rating
           value={newReview.rating}
@@ -174,9 +167,16 @@ export default function ProductPage() {
           value={newReview.comment}
           onChange={handleReviewChange("comment")}
         />
+        {
+            user ?
         <Button variant="outlined" onClick={handleReviewSubmit}>
           Submit Review
         </Button>
+        :
+        <Typography>
+            Login to submit a review
+        </Typography>
+        }   
         </Box>
         </Box>
     </Container>

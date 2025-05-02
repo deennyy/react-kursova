@@ -20,7 +20,8 @@ import {
   Divider,
   Rating
 } from "@mui/material";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import NavBar from './NavBar.jsx'
 
 const drawerWidth = 240;
 
@@ -63,21 +64,12 @@ export default function IndexPage() {
     (product) => product.price >= priceRange[0] && product.price <= priceRange[1] && product.rating >= minRating
   );
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <CssBaseline />
-      <AppBar position="static">
-        <Toolbar>
-          <Typography
-            noWrap
-            variant="h6"
-            component={Link}
-            to={`/`}
-            sx={{ textDecoration: "none", color: "#ffffff", "&:hover": { textDecoration: "underline" } }}>
-            My E-Commerce Platform
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <NavBar></NavBar>
       <Box sx={{ display: "flex", flex: 1 }}>
         <Drawer
           variant="permanent"
