@@ -71,5 +71,12 @@
       "rating": 2.5,
       "comment": "adsgdghasgdagads"
     }
+  ],
+  "carts": [
+    {
+      "id": "1",
+      "user_id": "1",
+      "product_ids": "1,1,1"
+    }
   ]
 }

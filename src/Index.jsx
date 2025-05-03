@@ -48,6 +48,47 @@ export default function IndexPage() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
+  const handleAddToCart = async (productId) => {
+    if (!user) return alert("Please login first.");
+
+    const userId = user['id'];
+  
+    if (!userId) return alert("Please login first.");
+  
+    try {
+      const res = await fetch(`http://localhost:3000/carts?user_id=${userId}`);
+      const carts = await res.json();
+  
+      if (carts.length > 0) {
+        // Update existing cart
+        const cart = carts[0];
+        const currentIds = cart.product_ids ? cart.product_ids.split(",") : [];
+        //if (!currentIds.includes(String(productId))) {
+          currentIds.push(String(productId));
+          await fetch(`http://localhost:3000/carts/${cart.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ product_ids: currentIds.join(",") }),
+          });
+        //}
+      } else {
+        // Create new cart
+        await fetch(`http://localhost:3000/carts`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: userId,
+            product_ids: String(productId),
+          }),
+        });
+      }
+
+      window.location.reload();
+    } catch (err) {
+      console.error("Cart update failed:", err);
+    }
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <CssBaseline />
@@ -122,7 +163,7 @@ export default function IndexPage() {
                       <Rating value={product.rating} precision={0.5} readOnly size="small" />
                     </CardContent>
                     <CardActions>
-                      <Button size="small">Add to Cart</Button>
+                      <Button size="small" onClick={() => handleAddToCart(product.id)}>Add to Cart</Button>
                     </CardActions>
                   </Card>
                 </Grid>
