@@ -111,7 +111,10 @@ export default function IndexPage() {
                       component={Link}
                       to={`/products/${product.id}`}
                       sx={{ textDecoration: "none", color: "primary.main", "&:hover": { textDecoration: "underline" } }}>
-                      {product.name}
+                      {   product.name.length > 11
+                        ? `${product.name.slice(0, 8)}...`
+                        : product.name
+                    }
                     </Typography>
                       <Typography variant="body2" color="text.secondary">
                         ${product.price}

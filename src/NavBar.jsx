@@ -25,6 +25,10 @@ const NavBar = () => {
         navigate("/");
     };
 
+    const handleAdminClick = () => {
+        navigate("/admin");
+    };
+
     const user = JSON.parse(localStorage.getItem("user"));
     const location = useLocation();
 
@@ -44,6 +48,7 @@ const NavBar = () => {
                     <>
                     <Box sx={{ flexGrow: 1 }} />
                     { user && <Typography sx={{pr: 1}}>Logged in as: {user['username']}</Typography> }
+                    { user && user['username'] === "Admin" ? <Button variant="outlined" sx={{ mr: 1, color: "#ff0000" }} color="#ff0000" onClick={handleAdminClick}>Admin Panel</Button> : null }
 
                     { user ? (
                     <Button variant="outlined" color="#ffffff" onClick={handleLogoutClick}>
