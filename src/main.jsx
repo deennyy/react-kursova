@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductPage from './ProductPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import AdminPanel from './AdminPanel.jsx';
+import CheckoutPage from './CheckoutPage.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')).render(
       <Route path="/products/:id" element={<ProductPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/admin" element={<AdminPanel />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
     </Routes>
   </BrowserRouter>,
 )

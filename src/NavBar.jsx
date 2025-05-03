@@ -80,14 +80,14 @@ const NavBar = () => {
                     
                     { user && <Typography sx={{pr: 1}}>Logged in as: {user['username']}</Typography> }
                     
-                    { user && cartItems.length > 0 ? 
+                    { user && cartItems.length > 0 && location['pathname'] != '/checkout' ? 
 
                     <Box
                         onMouseEnter={() => setCartOpen(true)}
                         onMouseLeave={() => setCartOpen(false)}
                         sx={{ position: "relative", ml: "auto", cursor: "pointer" }}
                     >
-                    <Typography variant="button" sx={{ color: "#fff", mr: 1 }}>
+                    <Typography variant="button" sx={{ color: "#fff", mr: 1 }} onClick={() => navigate("/checkout")}>
                         Your Cart ({cartItems.length})
                     </Typography>
                     {cartOpen && (
@@ -108,7 +108,7 @@ const NavBar = () => {
                         <Typography>No items in cart</Typography>
                     ) : (
                         cartItems.map((item) => (
-                        <Typography key={item.id} variant="body2">
+                        <Typography key={(Math.floor(Math.random() * 100000))} variant="body2">
                             {item.name}
                         </Typography>
                         ))

@@ -94,7 +94,7 @@ const LoginPage = () => {
         </Typography>
         <Box component="form" onSubmit={handleLogin}>
           <TextField
-            label="Username"
+            label="Name"
             type="username"
             fullWidth
             required
