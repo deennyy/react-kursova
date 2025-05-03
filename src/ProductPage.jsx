@@ -125,11 +125,6 @@ export default function ProductPage() {
           <Typography variant="h6" color="text.primary">
             ${product.price}
           </Typography>
-          <Box mt={2}>
-            <Button variant="contained" color="primary">
-              Add to Cart
-            </Button>
-          </Box>
         </CardContent>
       </Card>
       </Box>

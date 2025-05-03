@@ -76,7 +76,7 @@
     {
       "id": "1",
       "user_id": "1",
-      "product_ids": "2,3,1"
+      "product_ids": ""
     }
   ],
   "orders": [
@@ -87,7 +87,7 @@
       "address": "blah blah",
       "city": "springfield",
       "zip": "1000",
-      "status": "Placed"
+      "status": "Shipped"
     },
     {
       "id": "89b3",
@@ -96,7 +96,25 @@
       "address": "lol",
       "city": "aaa",
       "zip": "123",
-      "status": "Placed"
+      "status": "Shipped"
+    },
+    {
+      "id": "d763",
+      "user_id": "1",
+      "products": "2,3,1",
+      "address": "street 1",
+      "city": "town 1",
+      "zip": "1000",
+      "status": "Shipped"
+    },
+    {
+      "id": "4c2b",
+      "user_id": "1",
+      "products": "3,1",
+      "address": "123",
+      "city": "123",
+      "zip": "123",
+      "status": "Shipped"
     }
   ]
 }

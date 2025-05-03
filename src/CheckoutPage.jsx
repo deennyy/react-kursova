@@ -16,7 +16,7 @@ import NavBar from "./NavBar";
 import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (!user) {
@@ -73,16 +73,16 @@ const CheckoutPage = () => {
       return;
     }
   
-    // Prepare products string in the format "1,1,1" (IDs of products in the cart)
+    
     const productIds = cartProducts.map((p) => p.id).join(",");
   
     const newOrder = {
-      user_id: String(userId), // You would get this from the logged-in user
+      user_id: String(userId),
       products: productIds,
       address: shippingInfo.address,
       city: shippingInfo.city,
       zip: shippingInfo.zip,
-      status: "Placed", // Initial status can be "Placed"
+      status: "Placed",
     };
   
     try {
@@ -97,7 +97,6 @@ const CheckoutPage = () => {
       if (res.ok) {
         alert("Order submitted successfully!");
   
-        // Optionally, clear the cart after submitting the order
         const cartRes = await fetch(`http://localhost:3000/carts?user_id=${userId}`);
         const userCart = await cartRes.json();
         if (userCart.length) {
@@ -106,13 +105,13 @@ const CheckoutPage = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ product_ids: "" }), // Clear cart in API
+            body: JSON.stringify({ product_ids: "" }),
           });
         }
   
-        // Reset form fields and cart state in the UI
         setShippingInfo({ address: "", city: "", zip: "" });
         setCartProducts([]);
+        navigate("/");
       } else {
         alert("Failed to submit order");
       }
@@ -123,22 +122,18 @@ const CheckoutPage = () => {
   };
 
   const handleDeleteItem = async (index) => {
-    // Remove product from cartProducts by index
     const updatedCartProducts = [...cartProducts];
-    updatedCartProducts.splice(index, 1);  // Remove the product at the given index
+    updatedCartProducts.splice(index, 1); 
     setCartProducts(updatedCartProducts);
   
-    // Get the current user's cart
     const cartRes = await fetch(`http://localhost:3000/carts?user_id=${userId}`);
     const userCart = await cartRes.json();
   
     if (userCart.length) {
       const productIdsArray = userCart[0].product_ids.split(",");
   
-      // Remove the product ID at the corresponding index
       productIdsArray.splice(index, 1);
       
-      // Update the cart on the server with the new product_ids
       await fetch(`http://localhost:3000/carts/${userCart[0].id}`, {
         method: "PATCH",
         headers: {
@@ -150,8 +145,6 @@ const CheckoutPage = () => {
       });
     }
 
-    console.log(userCart);
-    console.log(userCart[0].product_ids.split(",").length);
     if (userCart[0].product_ids.split(",").length == 1) {
         navigate("/");
     }

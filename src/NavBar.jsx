@@ -35,6 +35,10 @@ const NavBar = () => {
         navigate("/admin");
     };
 
+    const handleOrdersClick = () => {
+        navigate("/orders");
+    };
+
     const user = JSON.parse(localStorage.getItem("user"));
 
     const [cartItems, setCartItems] = React.useState([]);
@@ -118,6 +122,8 @@ const NavBar = () => {
                     </Box>
                     : null
                     }
+
+                    { user ? <Button variant="outlined" sx={{ mr: 1 }} color="#ffffff" onClick={handleOrdersClick}>Orders</Button> : null }
 
                     { user && user['username'] === "Admin" ? <Button variant="outlined" sx={{ mr: 1, color: "#ff0000" }} color="#ff0000" onClick={handleAdminClick}>Admin Panel</Button> : null }
 

@@ -27,6 +27,7 @@ export default function AdminPanel() {
   });
 
   const [products, setProducts] = useState([]);
+  const [orders, setOrders] = React.useState([]);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -93,6 +94,34 @@ export default function AdminPanel() {
         );
   }
 
+  React.useEffect(() => {
+    fetch("http://localhost:3000/orders")
+      .then(res => res.json())
+      .then(data => setOrders(data));
+  }, []);
+
+  const markAsShipped = async (orderId) => {
+    await fetch(`http://localhost:3000/orders/${orderId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: "Shipped" }),
+    });
+  
+    // Refresh orders
+    const updatedOrders = await fetch("http://localhost:3000/orders").then(res => res.json());
+    setOrders(updatedOrders);
+  };
+
+  const getProductNames = (productIdsStr) => {
+    const ids = productIdsStr.split(",");
+    return ids.map(id => {
+      const product = products.find(p => p.id.toString() === id.trim());
+      return product ? product.name : `Unknown (${id})`;
+    }).join(", ");
+  };
+
   return (
     <Box>
       <CssBaseline />
@@ -141,7 +170,34 @@ export default function AdminPanel() {
             </Grid>
           ))}
         </Grid>
+
+        <Box mt={4}>
+    <Typography variant="h5">Orders</Typography>
+    {orders.map(order => (
+      <Card key={order.id} sx={{ mb: 2 }}>
+        <CardContent>
+          <Typography><strong>Order ID:</strong> {order.id}</Typography>
+          <Typography><strong>User ID:</strong> {order.user_id}</Typography>
+          <Typography><strong>Products:</strong> {getProductNames(order.products)}</Typography>
+          <Typography><strong>Address:</strong> {order.address}, {order.city} {order.zip}</Typography>
+          <Typography><strong>Status:</strong> {order.status}</Typography>
+          {order.status === "Placed" && (
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1 }}
+              onClick={() => markAsShipped(order.id)}
+            >
+              Mark as Shipped
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+    ))}
+  </Box>
       </Container>
+
+      
     </Box>
   );
 }

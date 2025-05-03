@@ -60,19 +60,15 @@ export default function IndexPage() {
       const carts = await res.json();
   
       if (carts.length > 0) {
-        // Update existing cart
         const cart = carts[0];
         const currentIds = cart.product_ids ? cart.product_ids.split(",") : [];
-        //if (!currentIds.includes(String(productId))) {
           currentIds.push(String(productId));
           await fetch(`http://localhost:3000/carts/${cart.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ product_ids: currentIds.join(",") }),
           });
-        //}
       } else {
-        // Create new cart
         await fetch(`http://localhost:3000/carts`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
